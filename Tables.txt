@@ -1,0 +1,129 @@
+1) Client_master
+
+CREATE TABLE Client_master
+(
+   client_no varchar2(6) check(client_no LIKE 'C%'),
+   adders1 varchar2(30)  NOT NULL,
+    adders2 varchar2(30),
+    city varchar2(15)  ,
+   state varchar(15),
+   pincode  number(6),
+   bal_due number(10,2) ,
+   CONSTRAINT pk_client_no PRIMARY KEY(client_no)
+);
+
+insert into Client_master  values
+ (C00001 ,'Ivan Bayross', 'Bombay' ,400054, 'Maharashtra',15000);
+ 
+ 
+ insert into Client_master  values
+ ('C00002', 'Vandana Saitwal',' Madras', 780001, 'Tamil Nadu', 0,8000);
+
+
+insert into Client_master  values
+ ('C00003', 'Pramada Jaguste', 'Bombay', 400057,' Maharashtra',5000,9000);
+
+
+INSERT INTO Client_Master 
+   values ('C00004', 'Basu Navindgi', 'Bombay', 400056, 'Maharashtra',0,60000);
+
+INSERT INTO Client_Master 
+   values ('C00005', 'Ravi Sreedharan','Delhi', 100001,'Delhi', 2000 ,5009);
+
+INSERT INTO Client_Master 
+   values ('C00006', 'Rukmini', 'Bombay' ,400050 ,'Maharashtra',0,800);
+
+==================================================================================================================
+2) product_master
+     CREATE TABLE PRODUCT_MASTER
+(
+product_no varchar2(6) check(product_no like 'P%'),
+description varchar2(50) not null,
+profit_percent number( 3,2) not null,
+unit_measure varchar2 (10) not null ,
+qty_on_hand  NUMBER(6)  not null,
+record_lvl number (8) not null, 
+sell_price number (8,2) not null CHECK(sell_price> 0) ,
+cost_price number (8,2) not null CHECK(cost_price> 0) ,
+CONSTRAINT pk_product_no PRIMARY KEY(product_no)
+);
+ 
+
+INSERT INTO PRODUCT_MASTER
+ VALUES('P00001', '1.44Floppies', 5, 'Piece', 100 ,20, 525, 500 );
+
+INSERT INTO PRODUCT_MASTER
+ VALUES('P03453','Monitors', 6 ,'Piece', 10, 3 ,12000,11280);
+
+
+INSERT INTO PRODUCT_MASTER
+ VALUES('P06734', 'Mouse', 5 ,'Piece', 20 ,5 ,1050, 1000 );
+
+INSERT INTO PRODUCT_MASTER
+ VALUES('P07868', 'Keyboards', 2, 'Piece', 10, 3 ,3150,3050);
+
+
+INSERT INTO PRODUCT_MASTER
+ VALUES('P07885', 'CD Drive', 2.5 ,'Piece', 10, 3 ,5250, 5100);
+
+INSERT INTO PRODUCT_MASTER
+ VALUES('P07965', '540HDD', 4 ,'Piece',10,3,8400, 8000 );
+
+
+INSERT INTO PRODUCT_MASTER
+ VALUES('P07975','1.44 Drive', 5,'Piece', 10, 3, 1050 ,1000 );
+
+
+
+INSERT INTO PRODUCT_MASTER
+ VALUES('P08865','1.22 Drive', 5,'Piece', 2, 3,1050,1000 );
+
+
+
+=======================================================================================
+3) salesman_master 
+
+CREATE TABLE SALESMAN_MASTER
+ (
+ salesman_no varchar2(6) CHECK (salesman_no LIKE 'S%' ),
+ salesman_name varchar2(20) not null, 
+ Address1 varchar2(30) not null ,
+ Address2 varchar2(30),
+ city varchar2(20), 
+ pincode varchar2 (6), 
+ state varchar2 (20), 
+ sal_amt number (8,2) not null check(sal_amt>0),
+ tgt_to_get number (6,2) not null CHECK(tgt_to_get>0),
+ ytd_sales number(6,2) not null,
+ remarks  varchar(10) not null,
+ CONSTRAINT pk_salesman_no PRIMARY KEY(salesman_no)
+ );
+ 
+ 
+
+ INSERT  INTO SALESMAN_MASTER values('S00001','Kiran','A/14','Worli','Bombay',400002,'MAH', 3000,100,50,'Good');
+   INSERT  INTO SALESMAN_MASTER values('S00002','Manish' ,'65','Nariman','Bombay',400001,'MAH',3000 ,200, 100,'Good' );
+   INSERT  INTO SALESMAN_MASTER values('S00003','Ravi','P-7','Bandra','Bombay', 400032, 'MAH',3000, 200, 100, 'Good' );
+   INSERT  INTO SALESMAN_MASTER values( 'S00004','Ashish','A/5','Juhu','Bombay',400044,'MAH', 3500, 200, 150, 'Good');
+
+
+=========================================================================================================================
+4_) sal
+
+
+
+CREATE TABLE SALES_ORDER
+   (
+     s_order_no varchar(6) CHECK(s_order_no LIKE 'o%'),
+     s_order_date DATE ,
+     client_no varchar2(6) ,
+     dely_addr varchar2(25),
+     salesman_no varchar2(6),
+     dely_type  char(1) check(dely_type IN ('P','F')),
+     billed_yn  char(1) check(billled_yn IN ('P','F')),
+     dely_date  date   check(dely_date>s_order_date),
+     order_status varchar2 (10) CHECK(order_status IN('in process','Fullfilled','BackOrder','Canceled')),
+     CONSTRAINT fk1_client_no FOREIGN KEY(client_no) references client_master(client_no),
+     CONSTRAINT fk2_salesman_no FOREIGN KEY(salesman_no) references salesman_master(salesman_no),
+   );
+   
